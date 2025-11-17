@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'de.unijena.bioinf.dm2024.grp4'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+   // implementation(files('libs/alignment-1.0-SNAPSHOT.jar', 'libs/exact-search-1.0-SNAPSHOT.jar'))
+    implementation(files('libs/alignment-1.0-SNAPSHOT.jar'))
+    implementation 'info.picocli:picocli:4.6.1'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+        'Main-Class': 'cli.Commandlineinterface'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
+
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'cli.Commandlineinterface'
+}
+
+
+
+
